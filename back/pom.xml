@@ -118,13 +118,15 @@
       <version>${org.springframework-version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-resources-plugin</artifactId>
-      <version>3.2.0</version>
-    </dependency>
   </dependencies>
   <build>
     <finalName>spring</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+      </plugin>
+    </plugins>
   </build>
 </project>
