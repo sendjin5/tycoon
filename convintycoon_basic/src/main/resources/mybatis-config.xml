@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+    
+    <!--settings, typeAlias만 설정 -->
+    <settings>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="com.bs.spring.member.model.dto.Member" alias="member"/>
+        <typeAlias type="com.bs.spring.member.model.dto.Goods" alias="goods"/>
+        <typeAlias type="com.bs.spring.member.model.dto.Storage" alias="storage"/>
+        <typeAlias type="com.bs.spring.member.model.dto.Ordering" alias="ordering"/>
+        <typeAlias type="com.bs.spring.common.SpringArrayTypeHandler" alias="strArr"/>
+        <typeAlias type="com.bs.spring.maingame.model.dto.Revenue" alias="revenue"/>
+        <typeAlias type="com.bs.spring.member.model.dto.Store" alias="store"/>
+        <typeAlias type="com.bs.spring.maingame.model.dto.Product" alias="product"/>
+        <typeAlias type="com.bs.spring.maingame.model.dto.Game" alias="game"/>
+    </typeAliases>
+</configuration>

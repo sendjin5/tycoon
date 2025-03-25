@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ordering">
+    <select id="selectAllPrd" parameterType="int" resultType="ordering">
+
+        select goodsno,GOODSNAME, sum(ORDERQUANTITY) as ORDERQUANTITY,ORDERPRICE,GOODSTYPE,IMAGE
+        from
+            (select
+                 g.goodsno
+                  ,g.ORDERPRICE
+                  ,g.GOODSTYPE
+                  ,g.IMAGE
+                  ,decode(s.ORDERQUANTITY,null,0,s.ORDERQUANTITY) as ORDERQUANTITY
+                  ,decode(s.EXPDATE,null,g.TYPEEXPDATE,s.EXPDATE) as expdate
+                  ,g.GOODSNAME
+             from GOODS g,
+                  (select * from storage where PLAYNO=#{gameNo}) s
+             where g.GOODSNO = s.GOODSNO(+)
+             and g.IMAGE  not LIKE '%' || 50 || '%'
+
+            )
+        group by GOODSNAME,goodsno,ORDERPRICE,GOODSTYPE,IMAGE
+        order by ORDERPRICE
+    </select>
+
+    <select id="selectGameInfo"  parameterType="int"  resultType="ordering">
+        select
+            (case
+                 when storagelevel =1 then 50
+                 when storagelevel =2 then 70
+                 when storagelevel =3 then 90
+                 when storagelevel =4 then 110
+                 when storagelevel =5 then 130
+                 else 150
+                end) as  storagelevel
+             ,cash
+             ,playday
+        from GAME
+        where 1=1
+        and PLAY_NO=#{gameNo}
+    </select>
+
+        <!-- 단일 Storage 객체를 INSERT 처리하는 쿼리 (필요 시 사용) -->
+        <insert id="insertOrdering" parameterType="com.bs.spring.member.model.dto.Storage">
+            INSERT INTO STORAGE (
+                ORDERINGNO,
+                GOODSNO,
+                PLAYNO,
+                EXPDATE,
+                ORDERQUANTITY,
+                SALEPRICE,
+                SALEDGREE,
+                DISPOSALYN
+            ) VALUES (
+                         ordering_seq.NEXTVAL,
+                         #{goodsno},
+                         #{playno},
+                         #{expdate},
+                         #{orderquantity},
+                         #{saleprice},
+                         #{saledgree},
+                         #{disposalyn}
+                     )
+        </insert>
+
+    </mapper>
