@@ -23,9 +23,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Member checkId(Member member) {
         log.info("service넘어옴"+member);
-        Member result = dao.checkId(session, member);
-        log.info("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ result 값" + result);
-        return result;
+        return dao.checkId(session, member);
     }
 
 //

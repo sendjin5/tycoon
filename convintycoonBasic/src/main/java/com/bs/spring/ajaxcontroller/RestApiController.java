@@ -17,20 +17,18 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
+//@RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin("*")
-//@RequestMapping("/main")
 public class RestApiController {
 //    private final BoardService boardService;
     private final MemberService memberService;
-//
-
-    @RequestMapping("/")
-    public ResponseEntity<String> handleSpring() {
-        return ResponseEntity.ok("Connect Tycoon"); // "WEB-INF/views/springpage.jsp"로 연결됩니다
+    @GetMapping("/")
+    public ResponseEntity<String> index(){
+        return ResponseEntity.ok("Hello Tycoon");
     }
-
+//
  //http://localhost:9090/spring/api/loginMember'
      @PostMapping("/enrollMember")
      public ResponseEntity<?> enrollMember(

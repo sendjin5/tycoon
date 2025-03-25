@@ -18,9 +18,7 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Member checkId(SqlSession session, Member member) {
-        log.info("Dao 시작 ");
         Member result = session.selectOne("member.checkId", member);
-        log.info("Dao 끝" + result);
         return result;
     }
 
