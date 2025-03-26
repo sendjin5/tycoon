@@ -24,8 +24,15 @@ import java.util.concurrent.CompletableFuture;
 public class RestApiController {
 //    private final BoardService boardService;
     private final MemberService memberService;
+
+    @GetMapping("/dbTest")
+    public ResponseEntity<List<Member>> dbTest(){
+        List<Member> memberList = memberService.findAll();
+        return ResponseEntity.ok(memberList);
+    }
+
     @GetMapping("/test")
-    public ResponseEntity<String> index(){
+    public ResponseEntity<String> test(){
         return ResponseEntity.ok("Hello Tycoon");
     }
 //

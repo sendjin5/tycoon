@@ -8,9 +8,9 @@ import java.util.List;
 
 
 public interface MemberService {
+    List<Member> findAll();
     public Member findMemberById(Member member);
     int saveMember(Member member);
-
 
     Member findId(Member member);
 

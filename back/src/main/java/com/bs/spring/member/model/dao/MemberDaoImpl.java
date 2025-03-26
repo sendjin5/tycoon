@@ -9,6 +9,11 @@ import java.util.List;
 @Slf4j
 @Repository(value = "memberdao")
 public class MemberDaoImpl implements MemberDao {
+    @Override
+    public List<Member> findAll(SqlSession session) {
+        List<Member> memberList = session.selectList("member.findAll");
+        return memberList;
+    }
 
     @Override
     public Member findMemberById(SqlSession session, Member member) {

@@ -8,6 +8,8 @@ import java.util.List;
 
 
 public interface MemberDao {
+    List<Member> findAll(SqlSession session);
+
     Member findMemberById(SqlSession session, Member member);
 
     int saveMember(SqlSession session, Member member);

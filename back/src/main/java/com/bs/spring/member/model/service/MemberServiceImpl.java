@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,12 @@ public class MemberServiceImpl implements MemberService{
     private final MemberDao dao;
 
     private final SqlSession session;
+
+    @Override
+    public List<Member> findAll() {
+        List<Member> memberList = dao.findAll(session);
+        return memberList;
+    }
 
     @Override
     public Member checkId(Member member) {
