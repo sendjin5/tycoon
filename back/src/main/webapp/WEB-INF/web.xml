@@ -36,7 +36,7 @@
         요청을 spring container와 처리할 DispatcherServlete등록
     -->
     <servlet>
-        <servlet-name>spring-dispatcher</servlet-name>
+        <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -46,7 +46,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>spring-dispatcher</servlet-name>
+        <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
