@@ -5,6 +5,7 @@ import com.bs.spring.maingame.model.dto.Game;
 import com.bs.spring.maingame.model.dto.Product;
 import com.bs.spring.member.model.dto.Goods;
 import com.bs.spring.member.model.dto.Storage;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MainGameServiceImpl implements MainGameService{
@@ -27,9 +28,15 @@ public class MainGameServiceImpl implements MainGameService{
   @Override
   @Transactional
   public int startNewGame(Game game){
+    log.info("/startNewGame newGame 시작");
     int result = dao.newGame(session, game);
+    log.info("/startNewGame getNewGameCode 시작");
     int gameCode = dao.getNewGameCode(session, game.getUserId());
+    log.info("/startNewGame newLoan 시작");
     int result2 = dao.newLoan(session, game.getUserId(), gameCode);
+    log.info("/startNewGame newGame" + result);
+    log.info("/startNewGame getNewGameCode" + gameCode);
+    log.info("/startNewGame newLoan" + result2);
     if(result>0 && result2>0){
       return gameCode;
     }else{

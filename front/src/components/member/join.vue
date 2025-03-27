@@ -214,7 +214,7 @@ export default {
         return;
       }
 
-      // fetch('http://3.38.185.252:8080/spring/api/enrollMember', {
+      // fetch(__apiUrl__+'/spring/api/enrollMember', {
       fetch(__apiUrl__ + "/api/enrollMember", {
         method: "POST",
         headers: {

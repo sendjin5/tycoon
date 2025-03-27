@@ -20,58 +20,59 @@
       </div>
       <div class="arrow-down"></div>
     </div> -->
-  
-    
+
     <div class="menu-container">
       <div class="custom-button" @click="linkOrdering">
         <span class="button-text">발주</span>
       </div>
-      
+
       <div class="custom-button" @click="linkStorage">
         <span class="button-text">창고</span>
       </div>
-      
+
       <div class="custom-button" @click="linkBank">
         <span class="button-text">은행</span>
       </div>
     </div>
-    
+
     <div class="open-button-container">
-      <button class="open-button" @click="convOpen"></button>  <!-- 실험용 이벤트 -->
+      <button class="open-button" @click="convOpen"></button>
+      <!-- 실험용 이벤트 -->
     </div>
   </div>
 </template>
 
 <script>
-import Topbar from '../common/topbar.vue';
-import { revenueStore } from '@/assets/pinia/maingame';
+import Topbar from "../common/topbar.vue";
+import { revenueStore } from "@/assets/pinia/maingame";
 
 export default {
-  name: 'KoreanMenuInterface'
-  ,data(){
-    return{
-      revenue:revenueStore(),
-    }
-  },methods:{
-    linkOrdering(){
-      this.$router.push('/orderingMain');
-    }
-    ,linkStorage(){
-      if(history.state.disposeProfit!=null){
-        this.$router.push({
-          name:'storageMain',
-          state:{
-            disposeProfit:history.state.disposeProfit,
-          }
-        });
-      }else{
-        this.$router.push('/storageMain');
-      }
-    }
-    ,linkBank(){
-      this.$router.push('/bank')
+  name: "KoreanMenuInterface",
+  data() {
+    return {
+      revenue: revenueStore(),
+    };
+  },
+  methods: {
+    linkOrdering() {
+      this.$router.push("/orderingMain");
     },
-    convOpen(){
+    linkStorage() {
+      if (history.state.disposeProfit != null) {
+        this.$router.push({
+          name: "storageMain",
+          state: {
+            disposeProfit: history.state.disposeProfit,
+          },
+        });
+      } else {
+        this.$router.push("/storageMain");
+      }
+    },
+    linkBank() {
+      this.$router.push("/bank");
+    },
+    convOpen() {
       // fetch("",{
       //   method: 'POST',
       //   headers: {
@@ -82,29 +83,29 @@ export default {
       //   })
       // });
       //this.$router.push('/maingame/1');
-      this.$router.push('realnews1');
-    }
+      this.$router.push("realnews1");
+    },
   },
-  components:{ Topbar },
-  mounted(){
+  components: { Topbar },
+  mounted() {
     console.log("mainmenu mounted");
     const gameNo = sessionStorage.getItem("gameNo");
     this.revenue.loadState();
     // 그냥 돈만 가져와야지
-    fetch("http://3.38.185.252:8080/spring/maingame/moneydata?gameNo="+gameNo)
-    .then(response=>response.text())
-    .then(data=>this.revenue.cash = data)
+    fetch(__apiUrl__ + "/spring/maingame/moneydata?gameNo=" + gameNo)
+      .then((response) => response.text())
+      .then((data) => (this.revenue.cash = data));
 
-    this.revenue.qeezeYN='N';
-    this.revenue.feverYN='N';
-  }
-}
+    this.revenue.qeezeYN = "N";
+    this.revenue.feverYN = "N";
+  },
+};
 </script>
 
 <style scoped>
 @font-face {
-  font-family: 'rk';
-  src: url('/fonts/Recipekorea-FONT.ttf') format('truetype');
+  font-family: "rk";
+  src: url("/fonts/Recipekorea-FONT.ttf") format("truetype");
 }
 .main-container {
   width: 100vw;
@@ -120,41 +121,37 @@ export default {
   max-width: 100%;
   min-height: 90%;
 
-
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 
-
-  background-image: url('/background/whitebg.png');
+  background-image: url("/background/whitebg.png");
   background-size: 100% 100%;
-
 }
 .speech-bubble {
-position: flex;
-/* bottom: 80px; */
-align-items: center;
-transform: translateX(-50%);
-width: 90%;
-max-width: 900px;
-background-color: white;
-border-radius: 20px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-margin-left:50%;
+  position: flex;
+  /* bottom: 80px; */
+  align-items: center;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 50%;
 }
 
 .speech-bubble-content {
-width: 100%;
-text-align: left;
-font-size: 18px;
-line-height: 1.5;
-font-family: 'Noto Sans KR', sans-serif;
+  width: 100%;
+  text-align: left;
+  font-size: 18px;
+  line-height: 1.5;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .speech-bubble-content p {
-margin: 10px 0;
+  margin: 10px 0;
 }
-
 
 .header {
   display: flex;
@@ -162,7 +159,7 @@ margin: 10px 0;
   align-items: center;
   padding: 0.6vw 1.7vw;
   margin-bottom: 11vh;
-  border: 0.25vw solid #8B4513;
+  border: 0.25vw solid #8b4513;
   border-radius: 9999px;
   min-width: 90vw;
   margin-top: 4vh;
@@ -177,17 +174,17 @@ margin: 10px 0;
 .money-bag {
   display: flex;
   align-items: center;
-  background-color: #5D2906;
+  background-color: #5d2906;
   color: white;
   padding: 0.6vw 1.4vw;
   border-radius: 9999px;
-  gap:3.5vw;
+  gap: 3.5vw;
   height: 3.3vh;
-  width: 14vw;  
+  width: 14vw;
 }
 
 .money-bag {
-font-size: 1.5vw;
+  font-size: 1.5vw;
 }
 
 .right-section {
@@ -241,7 +238,7 @@ font-size: 1.5vw;
   height: 12vh;
   border-radius: 2vw;
   box-shadow: 0 0.5vw 1px #713528;
-  background-color: #FFEFCA; /* 기본 배경색: 연한 베이지 */
+  background-color: #ffefca; /* 기본 배경색: 연한 베이지 */
   border: 0.25vw solid #713528; /* 테두리 색상: 갈색 */
   color: #333; /* 기본 텍스트 색상: 검은색 */
   display: flex;
@@ -275,10 +272,10 @@ font-size: 1.5vw;
 .open-button {
   width: 14.5vw;
   height: 9vh;
-  background-image: url('/tutorial/button/openbutton.png');
+  background-image: url("/tutorial/button/openbutton.png");
   background-size: contain;
   background-repeat: no-repeat;
-  
+
   border: none;
   border-radius: 1vw;
   cursor: pointer;

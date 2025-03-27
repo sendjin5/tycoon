@@ -19,17 +19,14 @@ import java.util.Map;
 @Slf4j
 @Repository
 public class MainGameDaoImpl implements MainGameDao {
+
     @Override
     @Transactional
     public int newGame(SqlSession session, Game game){
-
+        log.info("newGamedao 시작"+ game);
         int result = session.insert("maingame.newGame", game);
-
-        log.info("결과확인"+result);
-
-
+        log.info("newGamedao 결과확인"+result);
         return result;
-//        return 0;
     }
 
     @Override

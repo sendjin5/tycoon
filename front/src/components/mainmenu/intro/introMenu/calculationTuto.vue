@@ -86,7 +86,7 @@ export default {
     methods:{
         convClose(){
             // 게임정보, 수익, 창고 업데이트 하기
-            fetch('http://3.38.185.252:8080/convintycoon/maingame/gameend',{
+            fetch(__apiUrl__+'/convintycoon/maingame/gameend',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'

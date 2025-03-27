@@ -27,4 +27,4 @@ public class AjaxController {
     public ResponseEntity<String> index(){
         return ResponseEntity.ok("Backend Start");
     }
-    }
+}

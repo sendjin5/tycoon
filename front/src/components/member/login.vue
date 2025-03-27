@@ -47,14 +47,12 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           userId: this.inputId,
           password: this.inputPw,
         }),
       })
         .then((response) => {
-          alert("로그인 요청 성공" + response.status);
           console.log(response.status);
 
           if (!response.ok) {
@@ -65,6 +63,7 @@ export default {
             }
             return null;
           } else {
+            alert("로그인 성공 환영합니다!");
             return response.json(); // 응답 데이터 파싱
           }
         })

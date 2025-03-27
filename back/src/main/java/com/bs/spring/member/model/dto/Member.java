@@ -15,9 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Member{
+    private Integer memberNo;
     private String userId;
     private String password;
     private String nick;
     private String email;
-
 }

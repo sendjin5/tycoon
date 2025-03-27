@@ -30,10 +30,10 @@ public class MainGameController {
   private final MainGameService service;
 
   @RequestMapping("/newgame")
-  public ResponseEntity startNewGame(@RequestBody Game game){
-    System.out.println(game);
+  public ResponseEntity<Integer> startNewGame(@RequestBody Game game){
+    log.info("/newgame, gameㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ" +  game);
     int result = service.startNewGame(game);
-    System.out.println("결과 : " + result);
+    log.info("결과 : " + result);
     if(result>0){
       return ResponseEntity.ok().body(result);
     }else {
@@ -94,7 +94,7 @@ public class MainGameController {
 
   @RequestMapping("/moneydata")
   public ResponseEntity moneyData(Integer gameNo){
-    log.info("gameNO+:::"+gameNo);
+    log.info("/moneydata, gameNO+:::"+gameNo);
     int money = service.getMoneyData(gameNo);
     return ResponseEntity.ok().body(money);
   }

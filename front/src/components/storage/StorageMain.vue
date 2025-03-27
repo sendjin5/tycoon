@@ -14,7 +14,6 @@
       </div>
     </div> -->
 
-
     <!-- Navigation -->
     <div class="navigation">
       <div class="back-button" @click="goBack">
@@ -30,19 +29,42 @@
     <!-- Tab Menu -->
     <div class="tab-container">
       <div class="tab-menu">
-        <div class="tab-item" :class="{ active: selectedTab === '신선식품' }" @click="selectTab('신선식품')">신선식품</div>
+        <div
+          class="tab-item"
+          :class="{ active: selectedTab === '신선식품' }"
+          @click="selectTab('신선식품')"
+        >
+          신선식품
+        </div>
         <div class="tab-divider"></div>
-        <div class="tab-item" :class="{ active: selectedTab === '즉석식품' }" @click="selectTab('즉석식품')">즉석식품</div>
+        <div
+          class="tab-item"
+          :class="{ active: selectedTab === '즉석식품' }"
+          @click="selectTab('즉석식품')"
+        >
+          즉석식품
+        </div>
         <div class="tab-divider"></div>
-        <div class="tab-item" :class="{ active: selectedTab === '전자제품' }" @click="selectTab('전자제품')">전자제품</div>
+        <div
+          class="tab-item"
+          :class="{ active: selectedTab === '전자제품' }"
+          @click="selectTab('전자제품')"
+        >
+          전자제품
+        </div>
       </div>
 
       <!-- Inventory Content -->
       <div class="fruit-container" :style="containerStyle">
         <div class="fruit-row" v-for="(row, rowIndex) in filteredFruitRows" :key="rowIndex">
           <div class="fruit-item" v-for="(fruit, fruitIndex) in row" :key="fruitIndex">
-            <img :src="fruit.image" :alt="fruit.goodsname" :id="fruit.goodsno" class="fruit-image"
-              @click="disposePopup($event)">
+            <img
+              :src="fruit.image"
+              :alt="fruit.goodsname"
+              :id="fruit.goodsno"
+              class="fruit-image"
+              @click="disposePopup($event)"
+            />
             <div class="fruit-quantity">x{{ fruit.orderquantity }}</div>
           </div>
         </div>
@@ -56,7 +78,6 @@
         <span>확장하기</span>
       </button>
     </div>
-
 
     <div v-show="popup" class="popup-overlay" @click="closePopup">
       <div class="popup-content" @click.stop>
@@ -74,11 +95,13 @@
 
         <div v-if="storage && storageSize >= 150" class="popup-body oneExplan">
           <p>창고 상한에 도달하였습니다.</p>
-          <div style="text-align:right;"><button class="expansionButton" @click="closePopup">확인</button></div>
+          <div style="text-align: right">
+            <button class="expansionButton" @click="closePopup">확인</button>
+          </div>
         </div>
 
         <div v-if="dispose" class="popup-body">
-          <div style="display:flex;justify-content:space-around;align-items:center;">
+          <div style="display: flex; justify-content: space-around; align-items: center">
             <div v-html="disproduct"></div>
             <div>
               <h4>{{ disfruit.goodsname }}</h4>
@@ -90,38 +113,43 @@
               <button class="increase-button" @click="increaseQuantity">+</button>
             </div>
           </div>
-          <div style="display:flex;justify-content:space-around;align-items:center;">
+          <div style="display: flex; justify-content: space-around; align-items: center">
             <div></div>
             <div>
-              <h5 style="color:#FF5353;">물품의 20% 가격으로 판매</h5>
+              <h5 style="color: #ff5353">물품의 20% 가격으로 판매</h5>
             </div>
-            <div><button class="disposeButton" :disabled="disquantity == 0" @click="disposeAction">폐기하기</button></div>
+            <div>
+              <button class="disposeButton" :disabled="disquantity == 0" @click="disposeAction">
+                폐기하기
+              </button>
+            </div>
           </div>
         </div>
 
         <div v-if="realdispose" class="popup-body oneExplan">
           <p>정말 폐기하시겠습니까?</p>
-          <div style="text-align:right;"><button class="disposeButton" @click="disposeNow">폐기</button></div>
+          <div style="text-align: right">
+            <button class="disposeButton" @click="disposeNow">폐기</button>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Topbar from '../common/topbar.vue';
-import { revenueStore } from '@/assets/pinia/maingame';
+import Topbar from "../common/topbar.vue";
+import { revenueStore } from "@/assets/pinia/maingame";
 
 const model = {
   popup: false,
-  popupTitle: '알림',
+  popupTitle: "알림",
   money: 500000,
   storageSize: 50,
   storage: false,
   dispose: false,
   realdispose: false,
-  disproduct: '',
+  disproduct: "",
   disquantity: 0,
   disfruit: {},
   disposeProfit: 0,
@@ -129,17 +157,17 @@ const model = {
   itemsPerRow: 5,
   maxVisibleRows: 3,
   rowHeight: 150, // Reverted row height to original
-  selectedTab: '신선식품'
-  , popupMessage: '',
+  selectedTab: "신선식품",
+  popupMessage: "",
   revenue: {},
-  amount:0
-  ,playday:30
-  ,storagelevel:0
+  amount: 0,
+  playday: 30,
+  storagelevel: 0,
 };
 
 export default {
-  name: 'KoreanInventoryInterface',
-  components:{ Topbar },
+  name: "KoreanInventoryInterface",
+  components: { Topbar },
   data() {
     return model;
   },
@@ -157,7 +185,7 @@ export default {
     },
     filteredFruitRows() {
       // 선택된 탭과 goodstype이 일치하는 항목만 필터링
-      const filteredFruits = this.fruits.filter(fruit => fruit.goodstype === this.selectedTab);
+      const filteredFruits = this.fruits.filter((fruit) => fruit.goodstype === this.selectedTab);
       const rows = [];
       for (let i = 0; i < filteredFruits.length; i += this.itemsPerRow) {
         rows.push(filteredFruits.slice(i, i + this.itemsPerRow));
@@ -168,11 +196,11 @@ export default {
       if (this.filteredFruitRows.length > this.maxVisibleRows) {
         return {
           height: `${this.maxVisibleRows * this.rowHeight}px`,
-          overflowY: 'scroll'
+          overflowY: "scroll",
         };
       }
       return {};
-    }
+    },
   },
   methods: {
     selectTab(tab) {
@@ -180,15 +208,22 @@ export default {
     },
     goBack() {
       this.$router.push({
-        name: 'mainmenu',
+        name: "mainmenu",
         state: {
           disposeProfit: this.disposeProfit,
-        }
+        },
       });
     },
     placeOrder() {
       this.storage = true;
-      this.popupMessage = ""+this.storageSize +">>"+ this.storageSize+ "필요금액:"+30000 + ((this.storageSize - 50) / 20) * 10000;;
+      this.popupMessage =
+        "" +
+        this.storageSize +
+        ">>" +
+        this.storageSize +
+        "필요금액:" +
+        30000 +
+        ((this.storageSize - 50) / 20) * 10000;
       this.popup = true;
     },
     closePopup() {
@@ -200,7 +235,7 @@ export default {
     disposePopup(e) {
       this.disquantity = 0;
       this.disproduct = e.target.parentElement.innerHTML;
-      this.disfruit = this.fruits.find(f => f.goodsno == e.target.id);
+      this.disfruit = this.fruits.find((f) => f.goodsno == e.target.id);
       console.log(this.disfruit);
       this.popup = true;
       this.dispose = true;
@@ -227,14 +262,18 @@ export default {
       this.disposeProfit += price * this.disquantity;
       this.revenue.disposePrice += price * this.disquantity;
 
-      fetch("http://3.38.185.252:8080/spring/maingame/expense?price=" + (price * this.disquantity) +
-        "&gameNo=" + sessionStorage.getItem("gameNo"))
-        .then(response => console.log(response))
+      fetch(
+        __apiUrl__ +
+          "/spring/maingame/expense?price=" +
+          price * this.disquantity +
+          "&gameNo=" +
+          sessionStorage.getItem("gameNo")
+      ).then((response) => console.log(response));
 
       this.revenue.saveState();
 
       if (this.disfruit.orderquantity == 0) {
-        const index = this.fruits.findIndex(f => this.disfruit.goodsno == f.goodsno);
+        const index = this.fruits.findIndex((f) => this.disfruit.goodsno == f.goodsno);
         console.log(index);
         this.fruits.splice(index, 1);
       }
@@ -248,23 +287,22 @@ export default {
         const expansionCost = 30000 + ((this.storageSize - 50) / 20) * 10000;
 
         // 서버에 창고 확장 요청
-        fetch("http://3.38.185.252:8080/spring/storage/expandStorage", {
+        fetch(__apiUrl__ + "/spring/storage/expandStorage", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             storagelevel: this.storagelevel,
-
-          })
+          }),
         })
-          .then(response => {
+          .then((response) => {
             if (!response.ok) {
               throw new Error("서버 응답 오류: " + response.status);
             }
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             console.log("창고 확장 성공:", data);
 
             // DB 업데이트 후 프론트엔드 상태 업데이트
@@ -276,19 +314,19 @@ export default {
             this.popup = false;
 
             // 성공 메시지 (필요시)
-            this.popupTitle = '알림';
-            this.popupMessage = '창고 확장이 완료되었습니다.';
+            this.popupTitle = "알림";
+            this.popupMessage = "창고 확장이 완료되었습니다.";
           })
-          .catch(error => {
-            console.error('창고 확장 중 오류 발생:', error);
+          .catch((error) => {
+            console.error("창고 확장 중 오류 발생:", error);
 
             // 오류 메시지 표시
-            this.popupTitle = '오류';
-            this.popupMessage = '창고 확장 중 오류가 발생했습니다. 다시 시도해주세요.';
+            this.popupTitle = "오류";
+            this.popupMessage = "창고 확장 중 오류가 발생했습니다. 다시 시도해주세요.";
             this.popup = true;
           });
       }
-    }
+    },
   },
   mounted() {
     if (history.state.popup != null) {
@@ -308,9 +346,9 @@ export default {
 
     const gameNo = sessionStorage.getItem("gameNo");
 
-    fetch("http://3.38.185.252:8080/spring/storage/findStorageAll?gameNo=" + gameNo)
-      .then(response => response.json())
-      .then(data => {
+    fetch(__apiUrl__ + "/spring/storage/findStorageAll?gameNo=" + gameNo)
+      .then((response) => response.json())
+      .then((data) => {
         console.log("서버에서 받은 데이터:", data);
         // 서버에서 받은 데이터를 그대로 fruits에 저장
         this.fruits = data;
@@ -319,45 +357,43 @@ export default {
         // this.amount = data[0].amount;
         console.log("적용된 데이터:", this.fruits);
       })
-      .catch(error => {
-        console.error('상품 데이터 가져오기 오류:', error);
-        this.popupMessage = '상품 데이터를 가져오는 중 오류가 발생했습니다.';
+      .catch((error) => {
+        console.error("상품 데이터 가져오기 오류:", error);
+        this.popupMessage = "상품 데이터를 가져오는 중 오류가 발생했습니다.";
         this.popup = true;
       });
 
     // 그냥 돈만 가져와야지
-    fetch("http://3.38.185.252:8080/spring/maingame/moneydata?gameNo=" + gameNo)
-      .then(response => response.text())
-      .then(data => this.revenue.cash = data)
+    fetch(__apiUrl__ + "/spring/maingame/moneydata?gameNo=" + gameNo)
+      .then((response) => response.text())
+      .then((data) => (this.revenue.cash = data));
 
     // 그냥 돈만 가져와야지
-    fetch("http://3.38.185.252:8080/spring/storage/gameInfo?gameNo=" + gameNo)
-      .then(response => response.json())
-      .then(data => {
+    fetch(__apiUrl__ + "/spring/storage/gameInfo?gameNo=" + gameNo)
+      .then((response) => response.json())
+      .then((data) => {
         this.storageSize = data.storagelevel;
-        this.storagelevel = data.storagecount;   })
-
-
+        this.storagelevel = data.storagecount;
+      });
   },
-  components:{ Topbar }
+  components: { Topbar },
 };
 </script>
 
 <style scoped>
 @font-face {
-  font-family: 'rk';
-  src: url('/fonts/Recipekorea-FONT.ttf') format('truetype');
+  font-family: "rk";
+  src: url("/fonts/Recipekorea-FONT.ttf") format("truetype");
 }
 @font-face {
-  font-family: 'prebold';
-  src: url('/fonts/Pretendard-bold.woff') format('woff');
+  font-family: "prebold";
+  src: url("/fonts/Pretendard-bold.woff") format("woff");
 }
 .main-container {
   width: 100%;
   height: 100vh;
   position: relative;
   overflow: hidden;
-
 
   font-size: 24px;
   background-color: #f5f5f5;
@@ -366,15 +402,12 @@ export default {
   max-width: 100%;
   min-height: 90%;
 
-
   display: flex;
   flex-direction: column;
   align-items: center;
 
-
-  background-image: url('/background/whitebg.png');
+  background-image: url("/background/whitebg.png");
   background-size: 100% 100%;
-
 }
 
 .header {
@@ -383,7 +416,7 @@ export default {
   align-items: center;
   padding: 0.6vw 1.7vw;
   margin-bottom: 0;
-  border: 0.25vw solid #8B4513;
+  border: 0.25vw solid #8b4513;
   border-radius: 9999px;
   min-width: 90vw;
   margin-top: 4vh;
@@ -399,7 +432,7 @@ export default {
 .money-bag {
   display: flex;
   align-items: center;
-  background-color: #5D2906;
+  background-color: #5d2906;
   color: white;
   padding: 0.6vw 1.4vw;
   border-radius: 9999px;
@@ -492,17 +525,17 @@ export default {
   font-family: rk;
   width: 50vw;
   height: 50vh;
-  border: 0.4vw solid #6F3533;
+  border: 0.4vw solid #6f3533;
   border-radius: 2vw;
   overflow: hidden;
   margin-bottom: 20px;
-  background-color: #EAE5DE;
+  background-color: #eae5de;
 }
 
 .tab-menu {
   display: flex;
   background-color: #fff3d4;
-  border-bottom: 4px solid #6F3533;
+  border-bottom: 4px solid #6f3533;
 }
 
 .tab-item {
@@ -592,7 +625,7 @@ export default {
 
 .confirm-button {
   font-family: prebold;
-  color: #6F3533;
+  color: #6f3533;
   background-color: #fff3d4;
   border: 0.25vw solid #8b4513;
   border-radius: 16px;
@@ -618,7 +651,6 @@ export default {
   overflow-y: auto;
   max-height: 400px;
   flex-wrap: wrap;
-
 }
 
 .fruit-row {
@@ -686,7 +718,6 @@ export default {
   background-color: #f5f5dc;
 }
 
-
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -701,7 +732,7 @@ export default {
 }
 
 .popup-content {
-  background-color: #F2F1EC;
+  background-color: #f2f1ec;
   width: 789px;
   height: 392px;
   border-radius: 30px;
@@ -709,7 +740,7 @@ export default {
 }
 
 .popup-header {
-  background-color: #6A396C;
+  background-color: #6a396c;
   padding: 15px;
   text-align: center;
   color: white;
@@ -809,25 +840,25 @@ export default {
 }
 
 .fruit-container::-webkit-scrollbar-thumb {
-  background-color: #8B4513; /* 테디베어 갈색으로 변경 */
+  background-color: #8b4513; /* 테디베어 갈색으로 변경 */
   border-radius: 10px;
   border: 2px solid #f5f5dc;
   cursor: grab; /* 드래그 가능 커서 표시 */
 }
 
 .fruit-container::-webkit-scrollbar-thumb:hover {
-  background-color: #A0522D; /* 호버 시 약간 밝은 갈색 */
+  background-color: #a0522d; /* 호버 시 약간 밝은 갈색 */
 }
 
 .fruit-container::-webkit-scrollbar-thumb:active {
-  background-color: #5D2906; /* 클릭 시 더 어두운 갈색 */
+  background-color: #5d2906; /* 클릭 시 더 어두운 갈색 */
   cursor: grabbing; /* 드래그 중 커서 변경 */
 }
 
 /* Firefox를 위한 스크롤바 스타일링 */
 .fruit-container {
   scrollbar-width: thin;
-  scrollbar-color: #8B4513 #f5f5dc;
+  scrollbar-color: #8b4513 #f5f5dc;
 }
 
 /* 스크롤바 영역 배경색 제거 */
