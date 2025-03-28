@@ -52,6 +52,7 @@ import Settings from "@/components/common/volumesettings.vue"; // 개발용으�
 import { createRouter, createWebHistory } from "vue-router";
 import CalculationTuto from "@/components/mainmenu/intro/introMenu/calculationTuto.vue";
 import Finalcalculation from "@/components/mainmenu/ending/finalcalculation.vue";
+import "@/../public/css/main.css";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

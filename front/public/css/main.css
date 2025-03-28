@@ -1,6 +1,14 @@
 @font-face {
-  font-family: 'RecipeKoreaOTF';
-  src: url('/fonts/RecipeKoreaOTF.otf') format('opentype');
+  font-family: "RecipeKoreaOTF";
+  src: url("/fonts/RecipeKoreaOTF.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
+}
+@font-face {
+  font-family: "rk";
+  src: url("/fonts/Recipekorea-FONT.ttf") format("truetype");
+}
+@font-face {
+  font-family: "prebold";
+  src: url("/fonts/Pretendard-bold.woff") format("woff");
 }
