@@ -25,20 +25,7 @@ import java.util.List;
 @Slf4j
 public class RestSellContoroller {
 
-        /*
-        *
-        *  발주 기능
-        *
-        *  1. 상품전체조회
-        *  2. 상품 발주 ->
-        *       창고, 발주 테이블 insert
-        * */
-
-        // 1. 상품 전체 조회
-
-
         private final GoodsService goodsService;
-
         // 발주전체화면의 경우,
         // 상품테이블 상품번호 외래키로 하여 창고테이블의 상품번호와 조인함
         // 발주전체
@@ -46,7 +33,7 @@ public class RestSellContoroller {
 
         @GetMapping("/selectAllPrd")
         public ResponseEntity<List<Ordering>> selectAllPrd(Integer gameNo){
-                log.info(" 요청 received: " );
+                log.info(" 요청 received: gameNo: "+ gameNo);
                 List<Ordering> result = goodsService.selectAllPrd(gameNo);
 
                 Ordering subResult = goodsService.selectGameInfo(gameNo);

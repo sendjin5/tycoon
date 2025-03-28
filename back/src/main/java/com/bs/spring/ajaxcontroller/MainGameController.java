@@ -42,7 +42,7 @@ public class MainGameController {
   }
 
   @RequestMapping("/gamestart")
-  public ResponseEntity gameStart(Integer gameNo){
+  public ResponseEntity<?> gameStart(Integer gameNo){
     List<Product> product = service.getAllProductByGameNo(gameNo);
     System.out.println(product);
     product.forEach(System.out::println);
@@ -50,7 +50,7 @@ public class MainGameController {
   }
 
   @RequestMapping("/gameend")
-  public ResponseEntity gameEnd(@RequestBody RevenueWrapper statement){
+  public ResponseEntity<?> gameEnd(@RequestBody RevenueWrapper statement){
     System.out.println(statement.getRevenue());
     System.out.println(statement.getProduct());
 
@@ -86,27 +86,26 @@ public class MainGameController {
   }
 
   @RequestMapping("/expense")
-  public ResponseEntity moneyExpense(Integer price, Integer gameNo){
+  public ResponseEntity<?> moneyExpense(Integer price, Integer gameNo){
     int result = service.moneyExpense(price,gameNo);
     System.out.println(result);
     return ResponseEntity.ok().build();
   }
 
   @RequestMapping("/moneydata")
-  public ResponseEntity moneyData(Integer gameNo){
-    log.info("/moneydata, gameNO+:::"+gameNo);
+  public ResponseEntity<?> moneyData(Integer gameNo){
     int money = service.getMoneyData(gameNo);
     return ResponseEntity.ok().body(money);
   }
 
   @RequestMapping("/news")
-  public ResponseEntity gamePlayDay(@RequestParam String userId){
+  public ResponseEntity<?> gamePlayDay(@RequestParam String userId){
     int result = service.getGamePlayDay(userId);
     return ResponseEntity.ok().body(result);
   }
 
   @RequestMapping("/gamefinal")
-  public ResponseEntity gamefinal(Integer gameNo){
+  public ResponseEntity<?> gamefinal(Integer gameNo){
     Map<String,Object> cashloanquiz = service.getCashLoanQuiz(gameNo);
     return ResponseEntity.ok().body(cashloanquiz);
   }
