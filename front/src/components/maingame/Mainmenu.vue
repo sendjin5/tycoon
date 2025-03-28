@@ -47,6 +47,7 @@ import Topbar from "../common/topbar.vue";
 import { revenueStore } from "@/assets/pinia/maingame";
 
 export default {
+  components: { Topbar },
   name: "KoreanMenuInterface",
   data() {
     return {
@@ -86,15 +87,18 @@ export default {
       this.$router.push("realnews1");
     },
   },
-  components: { Topbar },
   mounted() {
     console.log("mainmenu mounted");
-    const gameNo = sessionStorage.getItem("gameNo");
+    const gameNo = this.revenue.playNo;
+    console.log("받아온 돈 데이터:", gameNo);
+
     this.revenue.loadState();
-    // 그냥 돈만 가져와야지
-    fetch(__apiUrl__ + "/spring/maingame/moneydata?gameNo=" + gameNo)
+    fetch(__apiUrl__ + "/maingame/moneydata?gameNo=" + gameNo)
       .then((response) => response.text())
-      .then((data) => (this.revenue.cash = data));
+      .then((data) => {
+        console.log("받아온 돈 데이터:", data);
+        this.revenue.cash = data;
+      });
 
     this.revenue.qeezeYN = "N";
     this.revenue.feverYN = "N";
@@ -109,6 +113,7 @@ export default {
 }
 .main-container {
   width: 100vw;
+  min-width: 1100px;
   height: 100vh;
   position: relative;
   overflow: hidden;
@@ -270,11 +275,13 @@ export default {
 }
 
 .open-button {
-  width: 14.5vw;
-  height: 9vh;
+  min-width: 150px;
+  width: 15vw;
+  height: 100px;
   background-image: url("/tutorial/button/openbutton.png");
   background-size: contain;
   background-repeat: no-repeat;
+  background-color: #f9f8f2;
 
   border: none;
   border-radius: 1vw;

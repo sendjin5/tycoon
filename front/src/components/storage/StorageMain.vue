@@ -1,20 +1,7 @@
 <template>
   <div class="main-container">
     <Topbar />
-    <!-- Header -->
-    <!-- <div class="header">
-      <div class="left-section">D-30</div>
-      <div class="right-section">
-        <div class="money-bag">
-          <span class="bag-icon">💰</span>
-          <span class="amount">{{ (revenue.cash*1).toLocaleString() }}원</span>
-        </div>
-        <span class="settings-icon">⚙️</span>
 
-      </div>
-    </div> -->
-
-    <!-- Navigation -->
     <div class="navigation">
       <div class="back-button" @click="goBack">
         <img class="back-button" src="/common/Vector.png" alt="back" />
@@ -264,7 +251,7 @@ export default {
 
       fetch(
         __apiUrl__ +
-          "/spring/maingame/expense?price=" +
+          "/maingame/expense?price=" +
           price * this.disquantity +
           "&gameNo=" +
           sessionStorage.getItem("gameNo")
@@ -285,9 +272,10 @@ export default {
       if (this.storageSize < 150) {
         const expansionSize = 20;
         const expansionCost = 30000 + ((this.storageSize - 50) / 20) * 10000;
-
+        console.log("확장 레벨: " + this.storagelevel);
+        console.log("사이즈: " + this.storageSize);
         // 서버에 창고 확장 요청
-        fetch(__apiUrl__ + "/spring/storage/expandStorage", {
+        fetch(__apiUrl__ + "/storage/expandStorage", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -346,7 +334,7 @@ export default {
 
     const gameNo = sessionStorage.getItem("gameNo");
 
-    fetch(__apiUrl__ + "/spring/storage/findStorageAll?gameNo=" + gameNo)
+    fetch(__apiUrl__ + "/storage/findStorageAll?gameNo=" + gameNo)
       .then((response) => response.json())
       .then((data) => {
         console.log("서버에서 받은 데이터:", data);
@@ -364,12 +352,12 @@ export default {
       });
 
     // 그냥 돈만 가져와야지
-    fetch(__apiUrl__ + "/spring/maingame/moneydata?gameNo=" + gameNo)
+    fetch(__apiUrl__ + "/maingame/moneydata?gameNo=" + gameNo)
       .then((response) => response.text())
       .then((data) => (this.revenue.cash = data));
 
     // 그냥 돈만 가져와야지
-    fetch(__apiUrl__ + "/spring/storage/gameInfo?gameNo=" + gameNo)
+    fetch(__apiUrl__ + "/storage/gameInfo?gameNo=" + gameNo)
       .then((response) => response.json())
       .then((data) => {
         this.storageSize = data.storagelevel;
@@ -525,8 +513,8 @@ export default {
   font-family: rk;
   width: 50vw;
   height: 50vh;
-  border: 0.4vw solid #6f3533;
-  border-radius: 2vw;
+  border: 8px solid #6f3533;
+  border-radius: 30px;
   overflow: hidden;
   margin-bottom: 20px;
   background-color: #eae5de;
@@ -544,13 +532,12 @@ export default {
   text-align: center;
   line-height: 5vh;
   padding: 1vw;
-  font-weight: bold;
   cursor: pointer;
 }
 
 .tab-item.active {
-  background-color: #fff3d4;
-  color: #5d2906;
+  background-color: #713528;
+  color: white;
 }
 
 .tab-divider {
@@ -666,9 +653,8 @@ export default {
   align-items: center;
   position: relative;
   width: 160px;
-  /* 너비 설정 */
+  cursor: pointer;
   margin: 5px 15px 5px 0;
-  /* 오른쪽 여백 추가, 왼쪽으로는 여백 제거 */
 }
 
 .fruit-image {

@@ -1,19 +1,6 @@
 <template>
   <div class="main-container">
     <Topbar />
-    <!-- Header -->
-    <!-- <div class="header">
-      <div class="left-section">D-{{ this.playday }}</div>
-      <div class="right-section">
-        <div class="money-bag">
-          <span class="bag-icon">💰</span>
-          <span class="amount">{{ (revenue.cash*1).toLocaleString() }}원</span>
-        </div>
-        <span class="settings-icon">⚙️</span>
-        
-      </div>  
-    </div> -->
-
     <div class="main-content">
       <div class="back-button" @click="backToMain">
         <img id="backbtn" src="/common/Vector.png" alt="back" />
@@ -23,8 +10,8 @@
         <h2 class="delivery-title">발주</h2>
       </div>
 
-      <div class="product-section" style="font-family: rk">
-        <div style="margin-top: 1vh">
+      <div class="product-section">
+        <div>
           <div class="product-table">
             <div class="table-header">
               <div class="category-header">분류</div>
@@ -101,6 +88,7 @@
               </div>
             </div>
           </div>
+          <!--  -->
           <div class="total-products-fake">
             창고 총 상품 개수: {{ getTotalProductCount() }}/{{ this.storagelevel }}
           </div>
@@ -180,8 +168,6 @@ export default {
   mounted() {
     this.getProductData();
     const gameNo = sessionStorage.getItem("gameNo");
-    console.log("gameNo", gameNo);
-    // 그냥 돈만 가져와야지
     fetch(__apiUrl__ + "/maingame/moneydata?gameNo=" + gameNo)
       .then((response) => response.text())
       .then((data) => (this.revenue.cash = data));
@@ -208,16 +194,16 @@ export default {
           //this.storageLevel  =
           // 서버에서 가져온 데이터 로깅
           console.log("서버에서 가져온 상품 데이터:", this.products);
-
-          for (let i = 0; i < this.products.length; i++) {
-            console.log(this.products[i].goodsno);
-            console.log(this.products[i].orderprice);
-            console.log(this.products[i].image);
-            console.log(this.products[i].orderquantity);
-            console.log(this.products[i].expdate);
-            console.log(this.products[i].goodsname);
-            console.log(this.products[i].goodstype);
-          }
+          // 재고 콘솔
+          // for (let i = 0; i < this.products.length; i++) {
+          //   console.log(this.products[i].goodsno);
+          //   console.log(this.products[i].orderprice);
+          //   console.log(this.products[i].image);
+          //   console.log(this.products[i].orderquantity);
+          //   console.log(this.products[i].expdate);
+          //   console.log(this.products[i].goodsname);
+          //   console.log(this.products[i].goodstype);
+          // }
         })
         .catch((error) => {
           console.error("상품 데이터 가져오기 오류:", error);
@@ -470,14 +456,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "rk";
-  src: url("/fonts/Recipekorea-FONT.ttf") format("truetype");
-}
-@font-face {
-  font-family: "prebold";
-  src: url("/fonts/Pretendard-bold.woff") format("woff");
-}
 .main-container {
   width: 100%;
   height: 100vh;
@@ -564,14 +542,10 @@ export default {
 
 .back-button {
   position: absolute;
-  top: 5vh;
-  left: -7vw;
-  width: 2vw;
-  height: 2vh;
-  display: flex;
+  top: 50px;
+  left: -40px;
+  width: 50px;
   justify-content: center;
-  align-items: center;
-  color: white;
   cursor: pointer;
 }
 
@@ -593,15 +567,18 @@ export default {
 }
 
 .product-section {
+  font-family: rk;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-top: 1vh;
   gap: 20px;
 }
 
 .product-table {
   /* flex: 3; */
   width: 54vw;
+  min-width: 820px;
   height: 61vh;
   border: 7px solid #5e2813;
   border-top-left-radius: 52px;
@@ -615,7 +592,7 @@ export default {
   background-color: #f5e9d0;
   text-align: center;
   font-weight: bold;
-  border-bottom: 7px solid #5e2813;
+  border-bottom: 8px solid #5e2813;
   height: 6vh;
 }
 .table-header div {
@@ -786,8 +763,8 @@ export default {
 
 /* Firefox용 스크롤바 스타일 */
 .product-items {
-  scrollbar-width: thin;
-  scrollbar-color: #5e2813 #f5f5f5;
+  /* scrollbar-width: thin;
+  scrollbar-color: #5e2813 #f5f5f5; */
 }
 
 .quantity-display {
@@ -849,7 +826,9 @@ export default {
 
 .order-button {
   width: 9vw;
+  min-width: 180px;
   height: 6.5vh;
+  min-height: 70px;
   color: white;
   border: none;
   border-radius: 5px;

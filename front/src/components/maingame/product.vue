@@ -57,8 +57,8 @@
             </p>
           </div>
           <!-- draggable로 드래그 가능, dragstart 이벤트가 필요. -->
-          <img :src="`${p.image}`" alt="상품" style="width: 8vh; height: 8vh" :name="p.name" />
-          <p style="margin-top: 1vh; font-size: 1.8vh; height: 1.8vh">{{ p.goodsName }}</p>
+          <img :src="`${p.image}`" alt="상품" class="product-img" :name="p.name" />
+          <!-- <p style="margin-top: 1vh; font-size: 1.8vh; height: 1.8vh">{{ p.goodsName }}</p> -->
           <p style="margin-top: 1vh; font-size: 1.8vh; height: 1.8vh">{{ p.salePrice }}원</p>
         </div>
       </div>
@@ -275,7 +275,7 @@ export default {
     console.log("product mounted");
     console.log(this.getproduct.cart);
     const gameNo = sessionStorage.getItem("gameNo");
-    await fetch(__apiUrl__ + "/spring/maingame/gamestart?gameNo=" + gameNo) // 9090으로 변경경
+    await fetch(__apiUrl__ + "/maingame/gamestart?gameNo=" + gameNo)
       .then((response) => response.json())
       .then((data) => {
         this.getproduct.product = data;
@@ -351,7 +351,7 @@ export default {
       })
       .catch((e) => console.error(e));
 
-    await fetch(__apiUrl__ + "/spring/ordering/selectAllPrd?gameNo=" + gameNo, {
+    await fetch(__apiUrl__ + "/ordering/selectAllPrd?gameNo=" + gameNo, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -421,16 +421,26 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 13vh;
+  height: 7vh;
+  min-height: 65px;
   background-color: #ffefca;
 }
 .categorybutton p {
-  font-size: 3vh;
-  margin: 0 2vw;
+  font-size: 120%;
+  font-weight: bold;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+@media (min-width: 1550px) {
+  .categorybutton p {
+    font-size: 160%;
+  }
 }
 .categorybutton div {
   width: 0.3vw;
   height: 7vh;
+  margin: 0 1vw;
   background-color: #4c1b0b;
 }
 .category {
@@ -443,6 +453,7 @@ export default {
   background-color: #ffefca;
 }
 .product-container {
+  font-family: "rk";
   width: 42.5vw;
   height: 66vh;
   overflow-y: auto;
@@ -451,6 +462,7 @@ export default {
   scrollbar-color: #ffefca #4c1b0b; /* 브라우저에 따라 적용 안됨 🤔 */
 }
 .product-container2 {
+  font-family: "rk";
   width: 42.5vw;
   height: 70.5vh;
   display: flex;
@@ -464,10 +476,16 @@ export default {
   display: inline-block;
   text-align: center;
   width: 9vw;
-  height: 18vh;
+  height: 16vh;
+  min-height: 180px;
   background-color: white;
   border-radius: 3vh;
   margin: 0.9vh 0.7vw;
+  cursor: pointer;
+}
+.product-img {
+  width: 100%;
+  max-width: 160px;
 }
 .amount {
   width: 9vw;

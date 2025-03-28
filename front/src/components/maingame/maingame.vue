@@ -11,51 +11,7 @@
     />
     <Usermanual :manualon="manualon" @manualoff="manualoff" />
     <Savegame :savegame="savegame" @closeSaveModal="closeSaveModal" />
-    <div style="height: 10vh; overflow: visible; text-align: right">
-      <div class="topbar">
-        <!-- 시간 될 때 떼어내서 common에 넣어놓기 -->
-        <p style="font-size: 2vh">D-{{ 30 - revenue.salesDay + 1 }}</p>
-        <div style="display: flex">
-          <!-- <img src="/timer.png" width="10" height="52"> -- -->
-          <div class="timebar-container">
-            <div class="timerbar">
-              <div v-show="timebar > 0" class="timeleft" :style="`width:${timebar}vw`"></div>
-            </div>
-            <p class="time">{{ timeleft }}초</p>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center">
-          <img src="/icons/person.png" style="width: 2vw; height: 3.5vh" />
-          <p style="margin: 0; font-size: 2vh">{{ customerCount }}/10</p>
-        </div>
-        <div style="display: flex; align-items: center">
-          <div class="moneybar">
-            <img src="/icons/money.png" style="width: 2.5vw; height: 4.5vh" />
-            <!-- @/assets 빼기!!!!! -->
-            <div class="line"></div>
-            <div class="money">
-              <p style="font-size: 2vh">
-                {{ (revenue.cash * 1 + revenue.salesMount * 1).toLocaleString() }}원
-              </p>
-            </div>
-          </div>
-          <img
-            src="/icons/gameoption.png"
-            style="width: 2vw; height: 3.5vh"
-            @click="opensettings = !opensettings"
-          />
-        </div>
-      </div>
-      <!-- 윤상님 바꿔줘요! -->
-      <div v-show="opensettings" class="settings">
-        <div class="settingslist">
-          <p @click="soundsetting = true">사운드</p>
-          <p @click="manualon = true">초보자메뉴얼</p>
-          <p style="background-color: #56174f; color: #ffffff" @click="savegame = true">저장하기</p>
-        </div>
-      </div>
-      <!-- 윤상님 바꿔줘요! 여기까지 -->
-    </div>
+    <Topbar />
     <div class="product-container">
       <cartNquiz
         :customerA="customerA"
@@ -86,6 +42,7 @@
   </div>
 </template>
 <script scoped>
+import Topbar from "../common/topbar.vue";
 import Savegame from "../common/savegame.vue";
 import Usermanual from "../common/usermanual.vue";
 import Settings from "../common/volumesettings.vue";
@@ -96,6 +53,14 @@ import QuizmanOnConvenient from "/bgm/[suno]QuizmanOnConvenient.mp3";
 import { productStore, revenueStore } from "@/assets/pinia/maingame";
 
 export default {
+  components: {
+    cartNquiz,
+    Product,
+    Settings,
+    Usermanual,
+    Savegame,
+    Topbar,
+  },
   data() {
     return {
       quizblind: false,
@@ -215,12 +180,12 @@ export default {
     this.bgm.loop = true;
     this.quizbgm.loop = true;
 
-    const gameNo = sessionStorage.getItem("gameNo");
-    this.piniaProduct.cart = [];
-    // 그냥 돈만 가져와야지
-    fetch(__apiUrl__ + "/spring/maingame/moneydata?gameNo=" + gameNo)
-      .then((response) => response.text())
-      .then((data) => (this.revenue.cash = data));
+    // const gameNo = sessionStorage.getItem("gameNo");
+    // this.piniaProduct.cart = [];
+    // // 그냥 돈만 가져와야지
+    // fetch(__apiUrl__ + "/maingame/moneydata?gameNo=" + gameNo)
+    //   .then((response) => response.text())
+    //   .then((data) => (this.revenue.cash = data));
   },
   watch: {
     "$route.params.customerCount": {
@@ -228,37 +193,30 @@ export default {
         console.log(this.customerCount);
         console.log(curVal);
         if (curVal != null) {
-          console.log("와!");
+          console.log("핸들러 시작");
           this.customerCount = curVal;
           this.quizblind = false;
         } else {
-          console.log("우");
+          console.log("핸들러 실패");
           this.quizblind = true;
         }
       },
     },
-  },
-  components: {
-    cartNquiz,
-    Product,
-    Settings,
-    Usermanual,
-    Savegame,
   },
 };
 </script>
 <style scoped>
 .maingame {
   width: 100vw;
-  height: 100vh;
   min-width: 100vw;
   min-height: 100vh;
   background-image: url("/background/convenientbg.png");
-
   background-size: 100% 100%;
   background-position: center;
   overflow: hidden;
   position: fixed;
+  font-size: 1.25em;
+  /* font-family: rk; */
 }
 .topbar {
   display: flex;

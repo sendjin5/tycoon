@@ -238,6 +238,10 @@ export default {
   border: 0;
   font-size: 24px;
   margin-top: 2.2vh;
+  cursor: pointer;
+}
+.dayend:hover {
+  background-size: 100% 100%;
 }
 .calculation-title {
   max-width: 18vw;

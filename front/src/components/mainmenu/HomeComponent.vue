@@ -38,36 +38,31 @@
       </div>
 
       <div class="ranking-header">
-        <span>순위</span>
-        <span>닉네임</span>
-        <span>수익</span>
+        <div class="rank-icon">순위</div>
+        <div class="nickname" style="margin-right: 0%">닉네임</div>
+        <div class="profit" style="margin-right: 2%">수익</div>
       </div>
       <div class="ranking-list">
         <div v-for="(player, index) in rankings" :key="index" class="ranking-item">
           <!-- 트로피 추가 -->
           <div class="rank-icon">
+            <img class="" v-if="index === 0" src="/lanking/gold-trophy.png" alt="Gold Trophy" />
             <img
-              class="margin-left"
-              v-if="index === 0"
-              src="/lanking/gold-trophy.png"
-              alt="Gold Trophy"
-            />
-            <img
-              class="margin-left"
+              class=""
               v-else-if="index === 1"
               src="/lanking/silver-trophy.png"
               alt="Silver Trophy"
             />
             <img
-              class="margin-left"
+              class=""
               v-else-if="index === 2"
               src="/lanking/bronze-trophy.png"
               alt="Bronze Trophy"
             />
-            <span class="margin-left" v-else>{{ index + 1 }}</span>
+            <span class="" v-else>{{ index + 1 }}</span>
           </div>
-          <div class="nickname margin-left">{{ player.nickname }}</div>
-          <div class="profit margin-left">{{ formatCurrency(player.profit) }}</div>
+          <div class="nickname">{{ player.nickname }}</div>
+          <div class="profit">{{ formatCurrency(player.profit) }}</div>
         </div>
       </div>
     </div>
@@ -93,14 +88,7 @@ export default {
   data() {
     return {
       revenue: revenueStore(),
-      rankings: [
-        // { nickname: '도토리뚜껑', profit: 1000000 },
-        // { nickname: '멋지당', profit: 980000 },
-        // { nickname: '방구벨트', profit: 970000 },
-        // { nickname: '소잉냥', profit: 970000 },
-        // { nickname: '보리', profit: 970000 },
-        // { nickname: '지냥', profit: 970000 }
-      ],
+      rankings: [],
       userData: {},
     };
   },
@@ -112,7 +100,7 @@ export default {
       const userData = JSON.parse(loginUser);
       console.log("userId", userData.userId); // 이게 실행되는지 확인!
 
-      fetch(__apiUrl__ + "/spring/userdata/getUserData?userId=" + userData.userId)
+      fetch(__apiUrl__ + "/userdata/getUserData?userId=" + userData.userId)
         .then((response) => {
           console.log(response.status);
           if (!response.ok) {
@@ -126,11 +114,9 @@ export default {
           this.revenue.cash = data.cash;
           this.revenue.loan = data.loan;
           this.revenue.playNo = data.playNo;
-          // this.
           this.storageLevel = data.storageLevel;
-          // this.userData = data;
-
           this.revenue.saveState(); // 로컬에다 revenue store있는걸 저장함
+          sessionStorage.setItem("gameNo", data.playNo);
           return this.$router.push("/mainMenu");
         })
         .catch((error) => console.error("유저 데이터 불러오기 실패:", error));
@@ -218,7 +204,6 @@ export default {
   src: url("/fonts/Pretendard-bold.woff") format("woff");
 }
 .game-container {
-  font-size: 2vw;
   background-color: #f5f5f5;
   text-align: center;
   max-width: 100%;
@@ -230,10 +215,12 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
+  font-size: 1.25em;
+  /* font-family: rk; */
 }
 
 #secondimg {
-  width: 32vw;
+  min-width: 500px;
   height: 15vh;
   position: absolute;
   top: 10vh;
@@ -251,11 +238,12 @@ export default {
 .start-button {
   font-family: rk;
   height: 8vh;
-  width: 12vw;
-  padding: 15px 25px;
+  width: 180px;
+  padding: 15px 25px 8px;
   border: none;
   border-radius: 1vw;
-  font-size: 1.3vw;
+  font-size: 1em;
+  cursor: pointer;
 }
 
 .load-button {
@@ -263,47 +251,55 @@ export default {
   border: 0.4vw solid #6f3533;
   color: #6f3533;
 }
-
+.load-button:hover {
+  background-color: #6f3533;
+  color: white;
+}
 .start-button {
+  background-color: #ffefca;
+  border: 0.4vw solid #56174f;
+  color: #56174f;
+}
+.start-button:hover {
   background-color: #56174f;
   color: white;
 }
-
 .ranking-board {
   font-family: "rk";
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 46vw;
+  min-width: 550px;
   margin-top: 3vh;
-  padding: 20px;
 }
 
 .ranking-title {
   display: flex;
-  justify-content: center; /* 중앙 정렬 */
+  width: 150px;
   align-items: center;
+  justify-content: center;
   background-color: #6f3533;
   color: white;
-  font-family: RecipekoreaOTF;
-  font-size: 1.8vw;
-  font-weight: bold;
-  padding: 15px;
+  /* font-family: RecipekoreaOTF; */
+  /* font-weight: bold; */
+  padding: 10px;
   border-radius: 2vw 2vw 0 0;
   position: relative;
   gap: 10px; /* 아이콘과 텍스트 사이 간격 */
 }
 
 .crown-icon {
-  width: 2.5vw;
+  width: 30px;
   height: auto;
+  margin-right: 0.5vw;
+  margin-bottom: -5px;
 }
 
 .ranking-text {
-  font-size: 1.5vw;
+  font-size: 1.25rem;
 }
 
 .nickname {
-  flex: 2;
+  flex: 1.5;
   text-align: center;
 }
 
@@ -312,36 +308,13 @@ export default {
   justify-content: center;
 }
 
-.ranking-title {
-  display: flex;
-  width: 10vw;
-  align-items: center;
-  justify-content: center;
-  background-color: #6f3533;
-  color: white;
-  font-family: RecipekoreaOTF;
-  font-size: 1.5vw;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 2vw 2vw 0 0;
-  position: relative;
-}
-
-/* 왕관 아이콘 스타일 */
-.crown-icon {
-  width: 2vw;
-  height: auto;
-  margin-right: 0.5vw;
-}
-
 .ranking-header {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   background-color: #6f3533;
-  border-radius: 3vw 3vw 0 0;
+  border-radius: 30px 30px 0 0;
   color: white;
-  padding: 10px;
-  font-weight: bold;
+  padding: 20px 20px 5px;
   text-align: center;
 }
 
@@ -353,10 +326,9 @@ export default {
 .ranking-list {
   text-align: center;
   border: 0.5vw solid #6f3533;
-  border-radius: 0 0 3vw 3vw;
-  /* 🔥 스크롤바 추가 */
   max-height: 300px; /* 🔹 적절한 높이 설정 (6개 정도 표시) */
   overflow-y: auto; /* 🔹 수직 스크롤 활성화 */
+  background-color: #6f3533;
 }
 
 .ranking-list::-webkit-scrollbar {
@@ -387,6 +359,7 @@ export default {
 
 .rank-icon {
   display: flex;
+  min-width: 55px;
 }
 
 .margin-left {
@@ -406,6 +379,6 @@ export default {
 
 .profit {
   flex: 1; /* 기존과 동일한 비율 유지 */
-  text-align: center; /* 수익을 중앙 정렬 */
+  text-align: right; /* 수익을 중앙 정렬 */
 }
 </style>

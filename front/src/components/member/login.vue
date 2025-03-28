@@ -164,6 +164,11 @@ export default {
   margin-right: 1.7vw;
   cursor: pointer;
 }
+#loginbtn:hover {
+  border: 0.4vw solid #6f3533;
+  background-color: #ffefca;
+  color: #6f3533;
+}
 #resetbtn {
   font-family: rk;
   width: 12vw;
@@ -176,6 +181,11 @@ export default {
   font-size: 1.5vw;
   margin-left: 1.7vw;
   cursor: pointer;
+}
+#resetbtn:hover {
+  border: 0.3vw solid #6f3533;
+  background-color: #6f3533;
+  color: #ffffff;
 }
 #remembertext {
   margin-bottom: -0.4vw;
@@ -195,8 +205,8 @@ export default {
 }
 
 #inputcheck {
-  width: 1.9vw;
-  height: 3vh;
+  min-width: 30px;
+  min-height: 30px;
   border: 4px solid #6f3533; /* 테두리 두께 & 색상 변경 */
   appearance: none; /* 브라우저 기본 스타일 제거 */
   -webkit-appearance: none;
@@ -214,6 +224,7 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 16px;
+  font-weight: bold;
   color: black;
 }
 #btns {
