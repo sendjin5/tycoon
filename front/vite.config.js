@@ -10,7 +10,7 @@ export default defineConfig({
     },
   },
   define: {
-    __apiUrl__: JSON.stringify("http://localhost:8080"),
-    // __apiUrl__: JSON.stringify("http://3.38.185.252:8080/spring"),
+    // __apiUrl__: JSON.stringify("http://localhost:8080"),
+    __apiUrl__: JSON.stringify("http://3.38.185.252:8080/spring"),
   },
 });
